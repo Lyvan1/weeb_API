@@ -14,7 +14,7 @@ class User(models.Model):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email = models.EmailField(unique = True)
-    password = models.CharField(min_length = 6, ax_length = 128) #128 --> because of password hash
+    password = models.CharField(max_length = 128) #128 --> because of password hash
     
     def __str__(self):
         return self.email

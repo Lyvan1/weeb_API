@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from .serializers import UserSerializer
 from django.http import Http404
 
-# Create your views here.
+# Create your views here
 class UserViewSet(viewsets.ModelViewSet):
     """
     __ViewSet to handle Users__

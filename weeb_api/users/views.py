@@ -26,13 +26,13 @@ class UserViewSet(viewsets.ModelViewSet):
         
         if not self.queryset.exists():
             return Response({
-            'status': 'error',
+            'sucess': False,
             'results': 'No users found.'
         },status = status.HTTP_404_NOT_FOUND)
             
         else:
             return Response({
-            'status': 'success',
+            'success': True,
             'results': serializer.data
         }, status= status.HTTP_200_OK)
     
@@ -44,14 +44,14 @@ class UserViewSet(viewsets.ModelViewSet):
             
         except Http404: # Allow catching 404 exception, set this current error message instead of the framework auto response
             return Response({
-                'status': 'error',
+                'success': False,
                 'results': 'No user found.'
             },  status = status.HTTP_404_NOT_FOUND)
         
         serializer = self.serializer_class(user)
         
         return Response({
-            'status' : 'success',
+            'success' : True,
             'results': serializer.data
         }, status = status.HTTP_200_OK)
         

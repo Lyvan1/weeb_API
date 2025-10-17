@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from .models import Article
 from .serializers import ArticleReadSerializer, ArticleWriteSerializer
 from users.models import User
+from .models import Category
+
 class BlogViewSet(viewsets.ModelViewSet):
     """
     __ViewSet to handle Articles__
@@ -52,6 +54,7 @@ class BlogViewSet(viewsets.ModelViewSet):
     #Route /blog/ | Method POST
     def create(self, request, *args, **kwargs):
         author_id = request.data.get('author_id')
+        category_id = request.data.get('category_id')
         
         #Check if author_id is in the payload
         if not author_id:
@@ -60,15 +63,31 @@ class BlogViewSet(viewsets.ModelViewSet):
                 'message': 'author_id is required.'
             }, status = status.HTTP_400_BAD_REQUEST)
         
+        #check if catefory_id is in the payload
+        if not category_id:
+            return Response({
+                'success' : False,
+                'message' : 'category_id is required.'
+            }, status = status.HTTP_400_BAD_REQUEST)
+        
         #check if author exist
         try:
             User.objects.get(pk = author_id)
         except User.DoesNotExist:
             return Response({
                 'success': False,
-                'message': 'This author does not exist'
-            }, status = status.HTTP_400_BAD_REQUEST)
+                'message': 'This author does not exist.'
+            }, status = status.HTTP_404_NOT_FOUND)
         
+        #check if catergory exist
+        try:
+            Category.objects.get(pk = category_id)
+        except Category.DoesNotExist:
+            return Response({
+                'success': False,
+                'message': 'This Catagory does not exist.'
+            }, status = status.HTTP_404_NOT_FOUND)
+            
         serializer = self.get_serializer(data = request.data)  
         serializer.is_valid(raise_exception = True) 
         self.perform_create(serializer)

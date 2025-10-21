@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     #APP BLOG
     'blog',
     
+    #APP REVIEW
+    'review',
+    
     #DJANGO REST FRAMEWORK
     'rest_framework'
 ]
